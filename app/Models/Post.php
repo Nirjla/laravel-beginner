@@ -24,10 +24,13 @@ class Post extends Model
         // dd(request(['search']));
         //checks if the search key exists in the array $filters
         if ($filters['search'] ?? false) {
-            $query->where('title', 'like', '%' . request('search') . '%')
-                //this means in SQl standard format select * from post where title like '%se'
-                ->orWhere('body', 'like', '%' . request('search') . '%');
+            $query->where(function($subquery) {
+                $searchTerm = '%' . request('search') . '%';
+                $subquery->where('title', 'like', $searchTerm)
+                         ->orWhere('body', 'like', $searchTerm);
+            });
         }
+        
 
         if ($filters['category'] ?? false) {
             $query->whereExists(function ($subquery) {

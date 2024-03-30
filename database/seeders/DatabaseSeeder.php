@@ -19,26 +19,33 @@ class DatabaseSeeder extends Seeder
         // User::truncate();
         // Category::truncate();
         // // $timestamp = now();
-        $user = \App\Models\User::factory()->create([
-            'name' => 'John Doe'
-        ]);
-        $category = Category::factory()->create([
+        $user = \App\Models\User::factory(10)->create(
+            // 'name' => 'John Doe'
+        );
+        $personalCategory = Category::factory()->create([
             'name' => 'Personal',
             'slug' => 'personal',
         ]);
-        $category = Category::factory()->create([
+        $workCategory = Category::factory()->create([
             'name' => 'Work',
             'slug' => 'work',
         ]);
-        $category = Category::factory()->create([
+        $hobbiesCategory = Category::factory()->create([
             'name' => 'Hobbies',
             'slug' => 'hobbies',
         ]);
-        Post::factory(5)->create([
-            'user_id' => $user->id,
-            'category_id' => $category->id
+        $categoryIds = Category::pluck('id')->toArray();
+        User::all()->each(function($user) use ($categoryIds){
+            Post::factory(20)->create([
+                'user_id'=>$user->id,
+                'category_id'=>$categoryIds[array_rand($categoryIds)]
+            ]);
+        });
+        // Post::factory(20)->create([
+        //     'user_id' => $user->id,
+        //     'category_id' => $category->id
 
-        ]);
+        // ]);
         // $category =  \App\Models\Category::create([
 
         //     'name' => 'Personal',

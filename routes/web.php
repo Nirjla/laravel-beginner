@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SessionController;
+
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
@@ -24,6 +27,10 @@ Route::get(
 
 )->name('home');
 Route::get('/posts/{post:slug}', [PostController::class, 'show']);
+Route::get('/register',[RegisterController::class,'create'])->middleware('guest');
+Route::post('/register',[RegisterController::class,'store'])->middleware('guest');
+Route::get('/logout',[SessionController::class,'destroy'])->middleware('auth');
+// Route::get('/login',[SessionController::class,'destroy'])->middleware('guest');
 // Route::get('/posts/{post:slug}', function (Post $post) {
 //     // $post = Post::findorFail($id);
 //     return view('post', [
