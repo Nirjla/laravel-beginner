@@ -50,7 +50,16 @@
                     {!! $post->body !!}
                 </div>
             </div>
-        </article>
+            
+            <section class="col-span-8 col-start-5 space-y-5">
+                <x-post-comment/>
+                <x-post-comment/>
+
+                <x-post-comment/>
+
+                
+            </article>
+        </section>
     </main>
 
 </x-layout>
