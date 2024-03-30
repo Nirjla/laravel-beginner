@@ -1,17 +1,19 @@
-<article class='flex space-x-3 px-5 py-5 bg-gray-200 border border-gray-200 rounded-xl'>
+@props(['comment'])
+<x-panel class='bg-gray-200'>
+<article class='flex space-x-3'>
                     <div class='flex-shrink-0 rounded-xl '>
-                        <img src="https://i.pravatar.cc/60" alt="" width='60' height='60'>
+                        <img src="https://i.pravatar.cc/60?u={{$comment->id}}" alt="" width='60' height='60'>
                     </div>
                     <div>
                         <header>
-                            <h3 class='font-bold '>John Doe</h3>
+                            <h3 class='font-bold '>{{$comment->user->username}}</h3>
                         <p class='text-xs'>
                            Posted 
-                           <time>8 months ago</time>
+                           <time>{{$comment->created_at->diffForHumans()}}</time>
                         </p>
                         </header>
                         <p>
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorem repellat provident magni fugiat assumenda rerum omnis accusantium tempora explicabo qui.
-</p>
+                          {{$comment->body}}
                     </div>
                 </article>
+</x-panel>

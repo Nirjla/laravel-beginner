@@ -3,7 +3,7 @@
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
-
+use App\Http\Controllers\CommentController;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
@@ -32,6 +32,7 @@ Route::post('/register',[RegisterController::class,'store'])->middleware('guest'
 Route::get('/logout',[SessionController::class,'destroy'])->middleware('auth');
 Route::get('/login',[SessionController::class,'create'])->middleware('guest');
 Route::post('/sessions',[SessionController::class,'store'])->middleware('guest');
+Route::post('/posts/{post:slug}/comments', [CommentController::class, 'store']);
 // Route::get('/login',[SessionController::class,'destroy'])->middleware('guest');
 // Route::get('/posts/{post:slug}', function (Post $post) {
 //     // $post = Post::findorFail($id);
