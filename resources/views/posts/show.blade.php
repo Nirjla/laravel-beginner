@@ -52,23 +52,26 @@
             </div>
             
             <section class="col-span-8 col-start-5 space-y-5 ">
+                @auth
                 <x-panel>
                 <form method='POST' action="/posts/{{$post->slug}}/comments" >
                     @csrf
                 <header class='flex items-center'>
-                        <img src="https://i.pravatar.cc/60?{{auth()->id()}" alt="" width='60' height='60'>
+                        <img src="https://i.pravatar.cc/60?{{auth()->id()}}" alt="" width='60' height='60'>
                         <h2 class='ml-3'>Want to participate?</h2>
                     </header>
                     <textarea class='w-full mt-5 focus:outline-none focus:ring' placeholder='Comment here...' name='body'></textarea>
                     @error('body')
-                        <p class='text-xs text-red'>Comment Section is required</p>
+                        <span class='text-xs text-red-500'>{{$message}}</span>
                         @enderror
                     <div class='mt-3'>
-                       
                         <button type='submit'class='bg-blue-500 hover:bg-blue-600  rounded-full text-xs font-semibold text-white uppercase py-3 px-8'>Post</button>
                     </div>
                 </form>
                 </x-panel>
+                @else
+                <a href='/login' class='hover:underline'>Log In</a> or <a href="/register" class='hover:underline'>Register</a> to leave a comment
+                @endauth
                 @foreach($post->comments as $comment)
                 <x-post-comment :comment=$comment/>
                 @endforeach

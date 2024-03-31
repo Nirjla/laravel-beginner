@@ -1,6 +1,7 @@
 <x-layout>
       <section class="px-6 py-6">
             <main class='max-w-lg mx-auto'>
+                  <x-panel>
                   <h1 class='text-center font-bold text-xl'>Register here!</h1>
                   <form method='post' action='/register' class='mt-10'>
                         @csrf
@@ -37,6 +38,7 @@
                               <button type='submit' class='bg-blue-400 text-white rounded py-2 px-4 hover:bg-blue-500'>Submit</button>
                         </div>
 </form>
+</x-panel>
 </main>
       </section>
 </x-layout>

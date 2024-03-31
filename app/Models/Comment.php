@@ -9,7 +9,8 @@ class Comment extends Model
 {
    protected $with =['user'];
     use HasFactory;
-    protected $guarded = [''];
+    //protected $guarded = []; instead of this check in appserviceprovider
+    
     
     public function post(){
         return $this->belongsTo(Post::class);
