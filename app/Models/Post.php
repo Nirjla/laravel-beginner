@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
-    protected $guarded = [''];
+    protected $guarded = [];
     protected $with = ['category', 'user']; //eager loading prevent from n+1 problem
     // protected $fillable = ['slug', 'title', 'excerpt', 'body'];
     public function category()

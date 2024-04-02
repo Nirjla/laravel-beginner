@@ -22,34 +22,37 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::post('/newsletter',NewsletterController::class);
-   
+
 // dd($response);
 // dd(request()->all());
 
-    
-    // $response = $mailchimp->lists->addListMember('e0ae3738a8',[
+
+// $response = $mailchimp->lists->addListMember('e0ae3738a8',[
     //     "email_address"=>"mirjalashakya@gmail.com",
     //     "status"=>"subscribed"
     // ]);
     // dd($response);
-
-
-
-
-Route::get(
-    '/',
-    [PostController::class, 'index']
-    // dd(request(['search']));
-
-)->name('home');
-Route::get('/posts/{post:slug}', [PostController::class, 'show']);
+    
+    
+    
+    
+    Route::get(
+        '/',
+        [PostController::class, 'index']
+        // dd(request(['search']));
+        
+    );
+        Route::get('/posts/{post:slug}', [PostController::class, 'show']);
+        Route::post('/newsletter',NewsletterController::class);
 Route::get('/register',[RegisterController::class,'create'])->middleware('guest');
 Route::post('/register',[RegisterController::class,'store'])->middleware('guest');
 Route::get('/logout',[SessionController::class,'destroy'])->middleware('auth');
 Route::get('/login',[SessionController::class,'create'])->middleware('guest');
 Route::post('/sessions',[SessionController::class,'store'])->middleware('guest');
 Route::post('/posts/{post:slug}/comments', [CommentController::class, 'store']);
+Route::get('/admin/posts/create',[PostController::class,'create'])->middleware('admin');
+Route::post('/admin/posts',[PostController::class,'store'])->middleware('admin');
+// Route::
 // Route::get('/login',[SessionController::class,'destroy'])->middleware('guest');
 // Route::get('/posts/{post:slug}', function (Post $post) {
 //     // $post = Post::findorFail($id);

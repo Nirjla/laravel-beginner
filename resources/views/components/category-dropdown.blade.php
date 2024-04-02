@@ -6,13 +6,13 @@
             <x-icon name='arrow-down' class="absolute pointer-events-none" style="right: 12px;" />
         </button>
     </x-slot>
-    <x-dropdown-link href='/?{{http_build_query(request()->except("category","page"))}}' :active="request()->routeIs('home')">
+    <x-dropdown-link href='/{{http_build_query(request()->except("category","page","search"))}}' :active="request()->routeIs('/')">
         All
     </x-dropdown-link>
     @foreach ($categories as $category)
         {{-- @dd(request()) --}}
         <x-dropdown-link href="/?category={{ $category->slug }}&{{ http_build_query(request()->except('category','page')) }}"
-            :active="request()->is('/?category=' . $category->slug)">
+            :active="request()->url() == url('/?category='.$category->slug)">
             {{ $category->name }}
         </x-dropdown-link>
     @endforeach
