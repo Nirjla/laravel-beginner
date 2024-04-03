@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminPostController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
@@ -28,30 +29,34 @@ use Illuminate\Support\Facades\Route;
 
 
 // $response = $mailchimp->lists->addListMember('e0ae3738a8',[
-    //     "email_address"=>"mirjalashakya@gmail.com",
-    //     "status"=>"subscribed"
-    // ]);
-    // dd($response);
-    
-    
-    
-    
-    Route::get(
-        '/',
-        [PostController::class, 'index']
-        // dd(request(['search']));
-        
-    );
-        Route::get('/posts/{post:slug}', [PostController::class, 'show']);
-        Route::post('/newsletter',NewsletterController::class);
-Route::get('/register',[RegisterController::class,'create'])->middleware('guest');
-Route::post('/register',[RegisterController::class,'store'])->middleware('guest');
-Route::get('/logout',[SessionController::class,'destroy'])->middleware('auth');
-Route::get('/login',[SessionController::class,'create'])->middleware('guest');
-Route::post('/sessions',[SessionController::class,'store'])->middleware('guest');
+//     "email_address"=>"mirjalashakya@gmail.com",
+//     "status"=>"subscribed"
+// ]);
+// dd($response);
+
+
+
+
+Route::get(
+    '/',
+    [PostController::class, 'index']
+    // dd(request(['search']));
+
+);
+Route::get('/posts/{post:slug}', [PostController::class, 'show']);
+Route::post('/newsletter', NewsletterController::class);
+Route::get('/register', [RegisterController::class, 'create'])->middleware('guest');
+Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');
+Route::get('/logout', [SessionController::class, 'destroy'])->middleware('auth');
+Route::get('/login', [SessionController::class, 'create'])->middleware('guest');
+Route::post('/sessions', [SessionController::class, 'store'])->middleware('guest');
 Route::post('/posts/{post:slug}/comments', [CommentController::class, 'store']);
-Route::get('/admin/posts/create',[PostController::class,'create'])->middleware('admin');
-Route::post('/admin/posts',[PostController::class,'store'])->middleware('admin');
+Route::get('/admin/posts/create', [AdminPostController::class, 'create'])->middleware('admin');
+Route::post('/admin/posts', [AdminPostController::class, 'store'])->middleware('admin');
+Route::get('/admin/posts',[AdminPostController::class,'index'])->middleware('admin');
+Route::get('admin/posts/{post}/edit',[AdminPostController::class,'edit'])->middleware('admin');
+Route::patch('/admin/posts/{post}/update',[AdminPostController::class,'update'])->middleware('admin');
+Route::delete('/admin/posts/{post}',[AdminPostController::class,'destroy'])->middleware('admin');
 // Route::
 // Route::get('/login',[SessionController::class,'destroy'])->middleware('guest');
 // Route::get('/posts/{post:slug}', function (Post $post) {

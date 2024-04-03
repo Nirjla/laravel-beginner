@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Post;
 use App\Models\Comment;
-use Illuminate\Validation\Rule;
 
-use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -30,28 +27,7 @@ class PostController extends Controller
             // 'comments'=>Comment::all()
         ]);
     }
-    public function create(){
-        return view('posts.create',[
-           'categories' => Category::all(),
-        ]);
-    }
-    public function store(){
-        // ddd(request()->file('thumbnail'));
-        $attributes=request()->validate([
-            'title'=>['required',Rule::unique('posts','title')],
-           'slug'=>['required',Rule::unique('posts','slug')],
-           'thumbnail'=>'required|image',
-            'excerpt'=>'required',
-            'body'=>'required',
-            'category_id'=>['required',Rule::exists('categories','id')]
-        ]);
-        $attributes['user_id']= auth()->id();
-        $attributes['thumbnail']= request()->file('thumbnail')->store('thumbnail');
-Post::create($attributes);
-return back()->with('success',"Post created successfully");
 
-    }
-}
 // return view(
 //     'posts',
 //     [
@@ -62,3 +38,4 @@ return back()->with('success',"Post created successfully");
 
 //     ]
 // );
+}

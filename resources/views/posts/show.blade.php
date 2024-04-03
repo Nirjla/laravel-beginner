@@ -49,10 +49,10 @@
                     {!! $post->body !!}
                 </div>
             </div>
-            
+
             <section class="col-span-8 col-start-5 space-y-5 ">
                 @auth
-                <x-panel>
+                <x-panel heading="Comment Down">
                 <form method='POST' action="/posts/{{$post->slug}}/comments" >
                     @csrf
                 <header class='flex items-center'>
