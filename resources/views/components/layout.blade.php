@@ -26,15 +26,28 @@
 
             <div class="mt-8 md:mt-0 flex space-x-3 items-center">
                 @auth
-                <div class="text-xs font-bold uppercase">Welcome , {{auth()->user()->username}}</div>
-                <a href='/logout' class="text-xs font-bold uppercase">Log Out</a>
+                <x-dropdown>
+                    <x-slot name="trigger">
+                <button class="text-xs font-bold uppercase">Welcome , {{auth()->user()->username}}</button>
+            </x-slot>
+            @can('admin')
+            <x-dropdown-link href="/admin/posts" :active="request()->is('admin/posts')">
+                All posts
+            </x-dropdown-link>
+            <x-dropdown-link href="/admin/posts/create" :active="request()->is('admin/posts/create')">
+            Create Post
+            </x-dropdown-link>
+            @endcan
+            <x-dropdown-link href="/logout" >
+                Log Out
+                </x-dropdown-link>
+            </x-dropdown>
                 @else
                 <a href="/register" class="text-xs font-bold uppercase">Register</a>
                 <a href="/login" class="text-xs font-bold uppercase">Log In</a>
-
                 @endauth
-                <a href="#newsletter" 
-                    class="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
+                <a href="#newsletter"
+                    class="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5 flex-shrink-0">
                     Subscribe for Updates
                 </a>
             </div>
@@ -60,16 +73,16 @@
                             <input id="email" type="email" placeholder="Your email address"
                             name="email"
                             class="lg:bg-transparent py-2 lg:py-0 pl-4 focus-within:outline-none">
-                          
+
                         </div>
 
                         <button type="submit"
                             class="transition-colors duration-300 bg-blue-500 hover:bg-blue-600 mt-4 lg:mt-0 lg:ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-8">
                             Subscribe
                         </button>
-                       
+
                     </form>
-                    
+
                 </div>
                 @error('email')
                 <div>

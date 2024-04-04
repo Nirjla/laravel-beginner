@@ -30,7 +30,7 @@ class AdminPostController extends Controller
         ]);
     }
     protected function validatePost(?Post $post=null){
-   $post = $post?? new Post();
+    $post??= new Post();
         return request()->validate([
             'title' => ['required', Rule::unique('posts', 'title')->ignore($post)],
             'slug' => ['required', Rule::unique('posts', 'slug')->ignore($post)],
