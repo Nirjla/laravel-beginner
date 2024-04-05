@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('thumbnail');
             $table->text('excerpt');
             $table->text('body');
+            $table->boolean('status')->default(false);
             $table->timestamps();
             $table->timestamp('published_at')->nullable();
         });
@@ -33,5 +34,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('posts');
     }
-    
+
 };

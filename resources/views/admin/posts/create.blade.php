@@ -43,9 +43,9 @@
                <x-form.error name="category_id"/>
                 </x-form.field>
                 <x-form.field>
-       <x-form.button name="post"/>
+       <x-form.button label="post" name="action" />
+       <x-form.button label="save as draft" value='draft' name="action"/>
                 </x-form.field>
-
             </form>
         </x-panel>
 

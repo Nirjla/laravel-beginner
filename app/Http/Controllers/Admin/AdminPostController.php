@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -29,27 +29,31 @@ class AdminPostController extends Controller
             'post' => $post
         ]);
     }
-    protected function validatePost(?Post $post=null){
-    $post??= new Post();
-        return request()->validate([
-            'title' => ['required', Rule::unique('posts', 'title')->ignore($post)],
-            'slug' => ['required', Rule::unique('posts', 'slug')->ignore($post)],
-            'thumbnail' => $post->exists?['image']:['required','image'],
-            'excerpt' => 'required',
-            'body' => 'required',
-            'category_id' => ['required', Rule::exists('categories', 'id')]
-        ]);
 
-    }
-    public function store()
+    public function store(Request $request)
     {
         // ddd(request()->file('thumbnail'));
       $attributes =  $this->validatePost();
         $attributes['user_id'] = auth()->id();
         $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnail');
-        Post::create($attributes);
-        return back()->with('success', "Post created successfully");
+        $status = $request->input('action') === 'post' ? 1: 0;
+        Post::create($attributes + ['status'=>$status]);
+        $message = $status === 1 ?"Post created successfully":"Post have been drafted";
+        return back()->with('success',$message);
     }
+    protected function validatePost(?Post $post=null){
+        $post??= new Post();
+        // ddd(request()->all());
+                return request()->validate([
+                'title' => ['required', Rule::unique('posts', 'title')->ignore($post)],
+                'slug' => ['required', Rule::unique('posts', 'slug')->ignore($post)],
+                'thumbnail' => $post->exists?['image']:['required','image'],
+                'excerpt' => 'required',
+                'body' => 'required',
+                'category_id' => ['required', Rule::exists('categories', 'id')]
+            ]);
+
+        }
     public function update(Post $post)
     {
       $attributes=$this->validatePost($post);

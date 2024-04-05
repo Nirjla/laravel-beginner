@@ -1,14 +1,11 @@
 <?php
 
-use App\Http\Controllers\AdminPostController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\Admin\AdminPostController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NewsletterController;
-use App\Models\Category;
-use App\Models\Post;
-use App\Models\User;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,26 +34,37 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get(
-    '/',
-    [PostController::class, 'index']
-    // dd(request(['search']));
+// Route::get(
+//     '/',
+//     [PostController::class, 'index']
+//     // dd(request(['search']));
 
-);
-Route::get('/posts/{post:slug}', [PostController::class, 'show']);
-Route::post('/newsletter', NewsletterController::class);
-Route::get('/register', [RegisterController::class, 'create'])->middleware('guest');
-Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');
-Route::get('/logout', [SessionController::class, 'destroy'])->middleware('auth');
-Route::get('/login', [SessionController::class, 'create'])->middleware('guest');
-Route::post('/sessions', [SessionController::class, 'store'])->middleware('guest');
-Route::post('/posts/{post:slug}/comments', [CommentController::class, 'store']);
-Route::get('/admin/posts/create', [AdminPostController::class, 'create'])->middleware('can:admin');
-Route::post('/admin/posts', [AdminPostController::class, 'store'])->middleware('can:admin');
-Route::get('/admin/posts',[AdminPostController::class,'index'])->middleware('can:admin');
-Route::get('admin/posts/{post}/edit',[AdminPostController::class,'edit'])->middleware('can:admin');
-Route::patch('/admin/posts/{post}/update',[AdminPostController::class,'update'])->middleware('can:admin');
-Route::delete('/admin/posts/{post}',[AdminPostController::class,'destroy'])->middleware('can:admin');
+// );
+Route::get('/','PostController@index');//
+Route::get('/posts/{post:slug}', 'PostController@show');
+Route::post('/newsletter', 'NewsletterController');
+Route::middleware('guest')->group(function(){
+    Route::get('/register', 'RegisterController@create');
+    Route::post('/register', 'RegisterController@store');
+    Route::get('/login', 'SessionController@create');
+    Route::post('/sessions', 'SessionController@store');
+
+});
+Route::middleware('auth')->group(function(){
+    Route::get('/logout', 'SessionController@destroy');
+});
+Route::post('/posts/{post:slug}/comments', 'CommentController@store');
+Route::middleware('can:admin')->group(function(){
+    Route::resource('admin/posts','Admin\AdminPostController')->except('show');
+});
+    // Route::get('/admin/posts/create', [AdminPostController::class, 'create']);
+    // Route::post('/admin/posts', [AdminPostController::class, 'store']);
+    // Route::get('/admin/posts',[AdminPostController::class,'index']);
+    // Route::get('admin/posts/{post}/edit',[AdminPostController::class,'edit']);
+    // Route::patch('/admin/posts/{post}/update',[AdminPostController::class,'update']);
+    // Route::delete('/admin/posts/{post}',[AdminPostController::class,'destroy']);
+
+
 // Route::
 // Route::get('/login',[SessionController::class,'destroy'])->middleware('guest');
 // Route::get('/posts/{post:slug}', function (Post $post) {

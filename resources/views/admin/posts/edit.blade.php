@@ -47,7 +47,7 @@
                <x-form.error name="category_id"/>
                 </x-form.field>
                 <x-form.field>
-       <x-form.button name="post"/>
+       <x-form.button label="post"/>
                 </x-form.field>
 
             </form>
